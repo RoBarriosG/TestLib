@@ -2,11 +2,12 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'maven-publish'
+    id 'digital.wup.android-maven-publish' version "3.6.2"
 }
 
 def artifactId = 'test-lib'
 def groupId = 'com.rodolfo'
-def versionId = '1.0.0'
+def versionId = '1.0.1'
 
 android {
     compileSdk 31
@@ -47,12 +48,15 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
 
-publishing {
-    publications {
-        library(MavenPublication) {
-            setGroupId groupId
-            setArtifactId artifactId
-            version versionId
+project.afterEvaluate {
+    publishing {
+        publications {
+            aar(MavenPublication) {
+                setGroupId groupId
+                setArtifactId artifactId
+                version versionId
+                from components.release
+            }
         }
     }
 }
